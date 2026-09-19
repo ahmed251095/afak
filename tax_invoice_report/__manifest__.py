@@ -8,7 +8,7 @@
     'license': 'LGPL-3',
     'author': "Ahmed Hussein",
     'category': 'Uncategorized',
-    'version': '16.1',
+    'version': '19.0.1.0.0',
     'depends': ['base','account','l10n_sa'],
     'data': [
         'views/invoice_report.xml',

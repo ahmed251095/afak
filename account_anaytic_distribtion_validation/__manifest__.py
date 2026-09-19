@@ -1,7 +1,7 @@
 {
 
     'name': 'Account Analytic Distribution Requirement',
-    'version': '16.0.1.0.0',
+    'version': '19.0.1.0.0',
     'summary': 'Make analytic distribution required on account move lines based on account setting',
     'depends': ['account'],
     'data': [
