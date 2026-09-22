@@ -12,9 +12,6 @@
                 <t t-call="tax_invoice_report.request_transfer_layout_custom">
                     <div class="page" style="font-family:arial" dir="rtl">
                         <div class="oe_structure"/>
-                        <br/>
-                        <br/>
-                        <br/>
                         <div id="informations">
                             <div class="row">
                                 <div class="col-2 offset-0">
@@ -392,6 +389,22 @@
         </t>
     </template>
 
+    <!-- The generic A4 format leaves 35mm between the header and the body, which
+         shows up as a large empty band under the QR code / logo. The header itself
+         is ~53mm tall (200px images), so margin_top only needs to clear that. -->
+    <record id="paperformat_nesma" model="report.paperformat">
+        <field name="name">Nesma Tax Invoice</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">55</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">3</field>
+        <field name="dpi">110</field>
+    </record>
+
     <record id="invoice_report_nesma" model="ir.actions.report">
         <field name="name">nesma</field>
         <field name="model">account.move</field>
@@ -401,5 +414,6 @@
         <field name="print_report_name">'Details Report'</field>
         <field name="binding_model_id" ref="account.model_account_move"/>
         <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="tax_invoice_report.paperformat_nesma"/>
     </record>
 </odoo>
