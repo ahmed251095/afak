@@ -9,15 +9,31 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="o" t-value="o.with_context(lang='en_US')"/>
-                <!-- a shorter header, so the body can start higher up the page -->
-                <t t-set="hdr_qr_size" t-value="140"/>
-                <t t-set="hdr_logo_height" t-value="'140px'"/>
-                <t t-set="hdr_logo_width" t-value="'210px'"/>
-                <t t-set="hdr_title_padding" t-value="'6px'"/>
-                <t t-set="hdr_title_size" t-value="'20px'"/>
-                <t t-call="tax_invoice_report.request_transfer_layout_custom">
+                <!-- The QR / title / logo are printed inline at the top of the body
+                     instead of through a class="header" block: wkhtmltopdf reserves a
+                     fixed band for a running header whose height does not follow its
+                     content, which left a wide empty strip (and overlapped the first
+                     rows once the top margin was reduced). Inline, the body simply
+                     starts right under them. Trade-off: they no longer repeat on the
+                     following pages. -->
+                <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                     <div class="page" style="font-family:arial" dir="rtl">
                         <div class="oe_structure"/>
+                        <div class="row" dir="ltr">
+                            <div class="col-4">
+                                <img t-if="o.l10n_sa_qr_code_str" style="display:block;"
+                                     t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', quote_plus(o.l10n_sa_qr_code_str), 150, 150)"/>
+                            </div>
+                            <div class="col-4 text-center" style="font-family:arial;padding-top:25px">
+                                <span style="font-size:20px;font-weight:bold">فاتورة ضريبية</span>
+                                <br/>
+                                <span style="font-size:20px;font-weight:bold">Tax Invoice</span>
+                            </div>
+                            <div class="col-4 text-end">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="height:110px;width:165px;"/>
+                            </div>
+                        </div>
                         <div id="informations">
                             <div class="row">
                                 <div class="col-2 offset-0">
@@ -390,24 +406,28 @@
                             </div>
                         </div>
                     </div>
-                </t>
+                </div>
+                <div class="footer">
+                    <div class="text-center text-muted" t-if="report_type == 'pdf'">
+                        Page: <span class="page"/> of <span class="topage"/>
+                    </div>
+                </div>
             </t>
         </t>
     </template>
 
-    <!-- The generic A4 format leaves 35mm between the header and the body, which
-         shows up as a large empty band under the QR code / logo. The header itself
-         is ~53mm tall (200px images), so margin_top only needs to clear that. -->
+    <!-- No running header on this report, so the top margin is just breathing
+         space; the generic A4 format would reserve 40mm + 35mm of header spacing. -->
     <record id="paperformat_nesma" model="report.paperformat">
         <field name="name">Nesma Tax Invoice</field>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">55</field>
+        <field name="margin_top">8</field>
         <field name="margin_bottom">15</field>
         <field name="margin_left">7</field>
         <field name="margin_right">7</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">3</field>
+        <field name="header_spacing">0</field>
         <field name="dpi">110</field>
     </record>
 
