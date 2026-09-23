@@ -9,6 +9,12 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="o" t-value="o.with_context(lang='en_US')"/>
+                <!-- a shorter header, so the body can start higher up the page -->
+                <t t-set="hdr_qr_size" t-value="140"/>
+                <t t-set="hdr_logo_height" t-value="'140px'"/>
+                <t t-set="hdr_logo_width" t-value="'210px'"/>
+                <t t-set="hdr_title_padding" t-value="'6px'"/>
+                <t t-set="hdr_title_size" t-value="'20px'"/>
                 <t t-call="tax_invoice_report.request_transfer_layout_custom">
                     <div class="page" style="font-family:arial" dir="rtl">
                         <div class="oe_structure"/>

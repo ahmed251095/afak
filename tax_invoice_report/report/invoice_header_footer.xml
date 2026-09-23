@@ -1,20 +1,27 @@
 <odoo>
     <data>
         <template id="request_transfer_layout_custom">
+            <!-- The caller can shrink the header (it eats into the page's top margin)
+                 by setting these before the t-call; the defaults keep the original size. -->
+            <t t-set="hdr_qr_size" t-value="hdr_qr_size or 200"/>
+            <t t-set="hdr_logo_height" t-value="hdr_logo_height or '200px'"/>
+            <t t-set="hdr_logo_width" t-value="hdr_logo_width or '300px'"/>
+            <t t-set="hdr_title_padding" t-value="hdr_title_padding or '50px'"/>
+            <t t-set="hdr_title_size" t-value="hdr_title_size or '24px'"/>
             <div class="header" dir="ltr" >
                 <div class="row">
                     <div class="col-4" style="margin-left:1px;">
 <!--                        <img t-if="o.l10n_sa_qr_code_str" style="display:block;max-height: 155px" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %('QR', o.l10n_sa_qr_code_str, 250, 150)"/>-->
-                        <img t-if="o.l10n_sa_qr_code_str" style="display:block;" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', quote_plus(o.l10n_sa_qr_code_str), 200, 200)"/>
+                        <img t-if="o.l10n_sa_qr_code_str" style="display:block;" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', quote_plus(o.l10n_sa_qr_code_str), hdr_qr_size, hdr_qr_size)"/>
                     </div>
-                    <div class="col-4 text-center" style="vertical-align:middle;padding:50px;font-family:arial">
-                        <span style="font-size:24px;font-weight:bold;vertical-align:middle">فاتورة ضريبية</span>
+                    <div class="col-4 text-center" t-att-style="'vertical-align:middle;font-family:arial;padding:%s' % hdr_title_padding">
+                        <span t-att-style="'font-weight:bold;vertical-align:middle;font-size:%s' % hdr_title_size">فاتورة ضريبية</span>
                         <br/>
-                        <span style="font-size:24px;font-weight:bold;vertical-align:middle">Tax Invoice</span>
+                        <span t-att-style="'font-weight:bold;vertical-align:middle;font-size:%s' % hdr_title_size">Tax Invoice</span>
                     </div>
                     <div class="col-4">
                         <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
-                                 style="height: 200px;width: 300px;"
+                                 t-att-style="'height:%s;width:%s;' % (hdr_logo_height, hdr_logo_width)"
                                  />
                     </div>
                 </div>
