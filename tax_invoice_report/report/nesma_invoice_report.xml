@@ -9,6 +9,15 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="o" t-value="o.with_context(lang='en_US')"/>
+                <!-- Overridable by a report that reuses this template (see the real
+                     estate one); the defaults are the investment company's account. -->
+                <t t-set="bank_name_en" t-value="bank_name_en or 'Bank Aljazira'"/>
+                <t t-set="bank_name_ar" t-value="bank_name_ar or 'بنك الجزيرة'"/>
+                <t t-set="bank_swift" t-value="bank_swift or 'BJAZSAJE'"/>
+                <t t-set="bank_iban" t-value="bank_iban or 'SA9560100030995010772001'"/>
+                <t t-set="bank_account_name_en" t-value="bank_account_name_en or 'Nsma Horizons Investment Company'"/>
+                <t t-set="bank_account_name_ar" t-value="bank_account_name_ar or 'شركة افاق نسما للاستثمار'"/>
+                <t t-set="bank_account_number" t-value="bank_account_number or '030995010772001'"/>
                 <!-- The QR / title / logo are printed inline at the top of the body
                      instead of through a class="header" block: wkhtmltopdf reserves a
                      fixed band for a running header whose height does not follow its
@@ -376,32 +385,32 @@
                             </div>
                             <div class="row">
                                 <div class="col-2 offset-0" style="margin-top:5px;margin-left:5px;"><strong style="white-space:nowrap">Bank Name:</strong><span style="color:white">...</span></div>
-                                <div class="col-4 offset-0">Bank Aljazira</div>
-                                <div class="col-4 text-end"> بنك الجزيرة </div>
+                                <div class="col-4 offset-0"><span t-out="bank_name_en"/></div>
+                                <div class="col-4 text-end"> <span t-out="bank_name_ar"/> </div>
                                 <div class="col-2 text-end" style="margin-top:5px;margin-right:5px;"><strong style="white-space:nowrap">:إسم البنك</strong><span style="color:white">...</span></div>
                             </div>
                             <div class="row">
                                 <div class="col-2 offset-0" style="margin-top:5px;margin-left:5px;"><strong style="white-space:nowrap">IBAN No:</strong></div>
-                                <div class="col-4 offset-0">SA9560100030995010772001</div>
-                                <div class="col-4 text-end">SA9560100030995010772001</div>
+                                <div class="col-4 offset-0"><span t-out="bank_iban"/></div>
+                                <div class="col-4 text-end"><span t-out="bank_iban"/></div>
                                 <div class="col-2 text-end" style="margin-top:5px;;margin-right:5px;"><strong style="white-space:nowrap">:رقم الايبان</strong><span style="color:white">...</span></div>
                             </div>
                             <div class="row">
                                 <div class="col-2 offset-0" style="margin-top:5px;;margin-left:5px;"><strong style="white-space:nowrap">SWIFT:</strong></div>
-                                <div class="col-4 offset-0">BJAZSAJE</div>
-                                <div class="col-4 text-end">BJAZSAJE </div>
+                                <div class="col-4 offset-0"><span t-out="bank_swift"/></div>
+                                <div class="col-4 text-end"><span t-out="bank_swift"/> </div>
                                 <div class="col-2 text-end" style="margin-top:5px;margin-right:5px;"><strong style="white-space:nowrap">:سويفت</strong><span style="color:white">...</span></div>
                             </div>
                             <div class="row">
                                 <div class="col-2 offset-0" style="margin-top:5px;margin-left:5px;"><strong style="white-space:nowrap">Account Name:</strong></div>
-                                <div class="col-4 offset-0">Nsma Horizons Investment Company</div>
-                                <div class="col-4 text-end"> شركة افاق نسما للاستثمار </div>
+                                <div class="col-4 offset-0"><span t-out="bank_account_name_en"/></div>
+                                <div class="col-4 text-end"> <span t-out="bank_account_name_ar"/> </div>
                                 <div class="col-2 text-end" style="margin-top:5px;margin-right:5px;"><strong style="white-space:nowrap">:إسم الحساب</strong><span style="color:white">...</span></div>
                             </div>
                             <div class="row">
                                 <div class="col-2 offset-0" style="margin-top:5px;margin-left:5px;"><strong style="white-space:nowrap">Account Number:</strong></div>
-                                <div class="col-4 offset-0">030995010772001</div>
-                                <div class="col-4 text-end">030995010772001</div>
+                                <div class="col-4 offset-0"><span t-out="bank_account_number"/></div>
+                                <div class="col-4 text-end"><span t-out="bank_account_number"/></div>
                                 <div class="col-2 text-end" style="margin-top:5px;margin-right:5px;"><strong style="white-space:nowrap">:رقم الحساب</strong><span style="color:white">...</span></div>
                             </div>
                         </div>

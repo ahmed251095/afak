@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Same document as "nesma", only the bank block differs: this one carries the
+         real estate company's account (Bank AlJazira letter of 2022-01-23). It reuses
+         the nesma template rather than copying it, so both reports keep the same
+         design. -->
+    <template id="invoice_customer_report_realestate">
+        <t t-set="bank_account_name_en" t-value="'NESMA HORIZONS REAL ESTATE COMPANY'"/>
+        <t t-set="bank_account_name_ar" t-value="'شركة افاق نسما العقارية'"/>
+        <t t-set="bank_iban" t-value="'SA2360100030995010563001'"/>
+        <t t-set="bank_account_number" t-value="'030995010563001'"/>
+        <t t-call="tax_invoice_report.invoice_customer_report_nesma"/>
+    </template>
+
+    <record id="invoice_report_realestate" model="ir.actions.report">
+        <field name="name">real estate</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tax_invoice_report.invoice_customer_report_realestate</field>
+        <field name="report_file">tax_invoice_report.invoice_customer_report_realestate</field>
+        <field name="print_report_name">'Details Report'</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="tax_invoice_report.paperformat_nesma"/>
+    </record>
+</odoo>
